@@ -34,4 +34,6 @@ public abstract class Vehiculo {
     public void setPropietario(String propietario){
         this.propietario=propietario;
     }
+
+    public abstract double calcularCosto(int horas, double tarifa);
 }

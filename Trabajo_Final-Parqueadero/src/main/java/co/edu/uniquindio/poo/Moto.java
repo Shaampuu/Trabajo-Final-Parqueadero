@@ -16,4 +16,9 @@ public class Moto extends Vehiculo{
     public void setVelocidadMaxima(int velocidadMaxima){
         this.velocidadMaxima=velocidadMaxima;
     }
+
+    @Override
+    public double calcularCosto(int horas, double tarifa){
+        return horas * tarifa;
+    }
 }

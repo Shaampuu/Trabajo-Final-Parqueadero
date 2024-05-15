@@ -3,24 +3,23 @@ package co.edu.uniquindio.poo;
 import java.util.ArrayList;
 
 public class Parqueadero {
-    private byte cantidadPuestos;
+    private int cantidadPuestos;
     private final Puesto[][] puestos;
     private final ArrayList<Vehiculo> historialVehiculos = new ArrayList<>();
 
     public Parqueadero(int columnas, int filas, byte cantidadPuestos){
 
+        this.cantidadPuestos = columnas * filas;
+
         puestos = new Puesto[columnas][filas];
         for (int posicionI = 0; posicionI < columnas; posicionI++){
             for (int posicionJ = 0; posicionJ < filas; posicionJ++){
-                puestos[posicionI][posicionJ] = new Puesto(columnas, filas, null, false);
+                puestos[posicionI][posicionJ] = new Puesto(posicionI, posicionJ, null, false);
             }
         }
-
-        this.cantidadPuestos = columnas * filas;
-
     }
 
-    public byte getCantidadPuestos(){
+    public int getCantidadPuestos(){
         return cantidadPuestos;
     }
 
@@ -48,7 +47,4 @@ public class Parqueadero {
             return "El puesto está vacio.";
         }
     }
-
-    
-
 }
