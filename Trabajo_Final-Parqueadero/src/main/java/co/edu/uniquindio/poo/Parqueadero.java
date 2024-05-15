@@ -1,18 +1,21 @@
 package co.edu.uniquindio.poo;
 import java.util.ArrayList;
-import java.time.LocalDate;
-import java.util.UUID;
-public class Parqueadero {
-    
-    private final Espacio[][] espacios;
-    private final ArrayList<Placa> placas;
-    private final ArrayList<Usuario> usuarios;
 
-    public Parqueadero(){
-        this.espacios = new Espacio[TamañoMatriz.FILAS][TamañoMatriz.COLUMNAS];
-        this.placas = new ArrayList<>();
-        this.usuarios = new ArrayList<>();
-        inicializarEspacios();
+public class Parqueadero {
+    private byte cantidadPuestos;
+    private final Puesto[][] puestos;
+    private final ArrayList<Vehiculo>  
+
+    public Parqueadero(int filas, int columnas){
+        
+        this.cantidadPuestos = filas * columnas;
+
+        puestos = new Puesto[filas][columnas];
+        for (int i = 0; i < filas; i++){
+            for (int j = 0; j < columnas; j++){
+                puestos[i][j] = new Puesto(i,j);
+            }
+        }
     }
 
     private void inicializarEspacios(){
@@ -82,5 +85,3 @@ public class Parqueadero {
     }
 
 }
-
-
