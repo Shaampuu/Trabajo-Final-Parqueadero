@@ -28,7 +28,7 @@ public class Puesto {
         this.posicionJ = posicionJ;
     }
 
-    public boolean estaocupado(){
+    public boolean estaOcupado(){
         return vehiculo != null;
     }
 
