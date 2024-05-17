@@ -23,7 +23,7 @@ public class Parqueadero {
         puestos = new Puesto[columnas][filas];
         for (int posicionI = 0; posicionI < columnas; posicionI++){
             for (int posicionJ = 0; posicionJ < filas; posicionJ++){
-                puestos[posicionI][posicionJ] = new Puesto(posicionI, posicionJ, null, false);
+                puestos[posicionI][posicionJ] = new Puesto(posicionI, posicionJ, null, false, columnas, filas);
             }
         }
     }
@@ -44,6 +44,19 @@ public class Parqueadero {
         }else {
             System.out.println("El puesto ya está ocupado.");
         }
+    }
+
+    public boolean buscarYParquearVehiculo(Vehiculo vehiculo, double tarifaPorHora){
+        for (int posicionI = 0; posicionI < puestos.length; posicionI++){
+            for (int posicionJ = 0; posicionJ < puestos.length; posicionJ++){
+                if(verificarDisponibilidad(posicionI, posicionJ)){
+                    ocuparPuestos(posicionI, posicionJ, vehiculo, tarifaPorHora);
+                    return true;
+                }
+            }
+        }
+        System.out.println("No hay puesto disponible");
+        return false;
     }
 
     public void liberarPuesto(int posicionI, int posicionJ){

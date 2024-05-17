@@ -41,8 +41,9 @@ public class ParqueaderoTest {
     @Test
     public void agregarMoto(){
         LOG.info("Iniciando test agregarMoto");
+        var propietario = new Propietario("Veronica Martinez");
         var parqueadero = new Parqueadero(12, 12);
-        var moto = new Moto("TTA-98F", (int) 2023, "Alexander Buitrago", (int) 130);
+        var moto = new Moto("TTA-98F", (int) 2023, propietario, TipoVehiculo.MOTO_CLASICA, (int) 130);
         parqueadero.agregarMoto(moto);
         assertTrue(parqueadero.getMotos().contains(moto));
         assertEquals(1,parqueadero.getMotos().size());
@@ -52,8 +53,9 @@ public class ParqueaderoTest {
     @Test 
     public void agregarCarro(){
         LOG.info("Iniciando test agregarMoto");
+        var propietario = new Propietario("Alexander Buitrago");
         var parqueadero = new Parqueadero(12, 12);
-        var carro = new Carro("KDM-645", (int) 2013, "Alexander Buitrago");
+        var carro = new Carro("KDM-645", (int) 2013, propietario, TipoVehiculo.CARRO);
         parqueadero.agregarCarro(carro);
         assertTrue(parqueadero.getCarros().contains(carro));
         assertEquals(1, parqueadero.getCarros().size());
@@ -63,9 +65,11 @@ public class ParqueaderoTest {
     @Test
     public void agregarMotoRepetido(){
         LOG.info("Iniciando test agregarMotoRepetida");
+        var propietario1 = new Propietario("Alexander Buitrago");
+        var propietario2 = new Propietario("Nicolas Buitrago");
         var parqueadero = new Parqueadero(12, 12);
-        var moto1 = new Moto("KUK-44F", (int) 2022, "Alexander Buitrago", 120);
-        var moto2 = new Moto("KUK-44F", 2022, "Nicolas Buitrago", (int) 120);
+        var moto1 = new Moto("KUK-44F", (int) 2022, propietario1, TipoVehiculo.MOTO_CLASICA, (int) 120);
+        var moto2 = new Moto("KUK-44F", 2022, propietario2, TipoVehiculo.MOTO_CLASICA, (int) 120);
         parqueadero.agregarMoto(moto1);
         assertThrows(Throwable.class, () -> parqueadero.agregarMoto(moto2));
         LOG.info("Finalizando test agregarMotoRepetida");

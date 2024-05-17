@@ -24,30 +24,35 @@ public class CarroTest {
     @Test
     public void datosCompletos(){
         LOG.info("Iniciando test datosCompletos");
-        var carro = new Carro("KDM-645", (int) 2013, "Alexander Buitrago");
+        var propietario = new Propietario("Alexander Buitrago");
+        var carro = new Carro("KDM-645", (int) 2013, propietario, TipoVehiculo.CARRO);
         assertEquals("KDM-645", carro.getPlaca());
         assertEquals((int) 2013, carro.getModelo());
         assertEquals("Alexander Buitrago", carro.getPropietario());
+        assertEquals(TipoVehiculo.CARRO, carro.getTipoVehiculo());
+        LOG.info("Finalizando test datosCompletos");
     }
 
     @Test 
     public void datosNulos(){
         LOG.info("Iniciando test datosNulos");
-        assertThrows(Throwable.class, () -> new Carro(null, (int) 0, null));
+        assertThrows(Throwable.class, () -> new Carro(null, (int) 0, null, null));
         LOG.info("Finalizando test datosNulos");
     }
 
     @Test 
     public void datosVacios(){
         LOG.info("Iniciando test datosVacíos");
-        assertThrows(Throwable.class, () -> new Carro(" ", (int) 0, " "));
+        var propietario = new Propietario("Alexander Buitrago");
+        assertThrows(Throwable.class, () -> new Carro(" ", (int) 0, propietario, TipoVehiculo.CARRO));
         LOG.info("Finalizando test datosVacíos");
     }
 
     @Test 
     public void numeroNegativo() {
         LOG.info("iniciando test númerosNegativos");
-        assertThrows(Throwable.class, () -> new Carro("KDM-645", (int)-2013, "Alexander Buitrago"));
+        var propietario = new Propietario("Alexander Buitrago");
+        assertThrows(Throwable.class, () -> new Carro("KDM-645", (int)-2013, propietario, TipoVehiculo.CARRO));
         TesteadorDeNumeroNegativo testeador = new TesteadorDeNumeroNegativo ();
         assertThrows(Throwable.class, testeador);
         LOG.info("finalizando test númerosNegativos");
@@ -56,7 +61,8 @@ public class CarroTest {
     private static class TesteadorDeNumeroNegativo implements Executable{
         @Override
         public void execute () throws Throwable {
-            new Carro("KDM-645", (int)-2013, "Alexander Buitrago");
+            var propietario = new Propietario("Alexander Buitrago");
+            new Carro("KDM-645", (int)-2013, propietario, TipoVehiculo.CARRO);
         }   
     }
 }
