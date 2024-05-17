@@ -2,13 +2,7 @@ package co.edu.uniquindio.poo;
 
 public class Carro extends Vehiculo {
 
-    public Carro (String placa, int modelo, String propietario){
-        super(placa, modelo, propietario);
-    }
-
-    @Override
-    public double calcularCosto(int horas, double tarifa){
-        return horas * tarifa; 
-    }
-    
+    public Carro (String placa, int modelo, Propietario propietario, TipoVehiculo tipoVehiculo){
+        super(placa, modelo, propietario, tipoVehiculo);
+    }   
 }

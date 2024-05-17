@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
  */
 
 public class ParqueaderoTest {
-    private static final Logger LOG = Logger.getLogger(MotoTest.class.getName());
+    private static final Logger LOG = Logger.getLogger(ParqueaderoTest.class.getName());
 
 
     @Test
@@ -52,11 +52,23 @@ public class ParqueaderoTest {
     @Test 
     public void agregarCarro(){
         LOG.info("Iniciando test agregarMoto");
-        var parqueadero new Parqueadero(12, 12);
+        var parqueadero = new Parqueadero(12, 12);
         var carro = new Carro("KDM-645", (int) 2013, "Alexander Buitrago");
         parqueadero.agregarCarro(carro);
-        assertTrue(parqueadero.getCarro(carro));
+        assertTrue(parqueadero.getCarros().contains(carro));
         assertEquals(1, parqueadero.getCarros().size());
+        LOG.info("Finalizando test agregarMoto");
+    }
+
+    @Test
+    public void agregarMotoRepetido(){
+        LOG.info("Iniciando test agregarMotoRepetida");
+        var parqueadero = new Parqueadero(12, 12);
+        var moto1 = new Moto("KUK-44F", (int) 2022, "Alexander Buitrago", 120);
+        var moto2 = new Moto("KUK-44F", 2022, "Nicolas Buitrago", (int) 120);
+        parqueadero.agregarMoto(moto1);
+        assertThrows(Throwable.class, () -> parqueadero.agregarMoto(moto2));
+        LOG.info("Finalizando test agregarMotoRepetida");
     }
 
 }

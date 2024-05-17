@@ -3,16 +3,18 @@ package co.edu.uniquindio.poo;
 public abstract class Vehiculo {
     private String placa; 
     private int modelo;
-    private String propietario;
+    private Propietario propietario;
+    private TipoVehiculo tipoVehiculo;
 
-    public Vehiculo (String placa, int modelo, String propietario){
+    public Vehiculo (String placa, int modelo, Propietario propietario, TipoVehiculo tipoVehiculo){
         assert placa != null && !placa.isBlank() : "La placa debe ser diferente de null";
         assert modelo > 0 : "el modelo del vehiculo debe ser mayor a 0 (cero)";
-        assert propietario != null && !propietario.isBlank() : "El nombre del propietario debe de ser diferente de null";
+        assert tipoVehiculo != null : "El tipo de vehiculo debe ser diferente de null";
         
         this.placa=placa;
         this.modelo=modelo;
-        this.propietario=propietario; 
+        this.propietario = propietario;
+        this.tipoVehiculo=tipoVehiculo; 
     }
 
     public String getPlaca(){
@@ -31,13 +33,15 @@ public abstract class Vehiculo {
         this.modelo=modelo;
     }
 
-    public String getPropietario(){
+    public TipoVehiculo getTipoVehiculo(){
+        return tipoVehiculo;
+    }
+
+    public void setTipoVehiculo(TipoVehiculo tipoVehiculo){
+        this.tipoVehiculo=tipoVehiculo;
+    }
+
+    public Propietario getPropietario(){
         return propietario;
     }
-
-    public void setPropietario(String propietario){
-        this.propietario=propietario;
-    }
-
-    public abstract double calcularCosto(int horas, double tarifa);
 }

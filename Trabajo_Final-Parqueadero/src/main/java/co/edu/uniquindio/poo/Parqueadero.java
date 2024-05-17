@@ -1,5 +1,6 @@
 package co.edu.uniquindio.poo;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -10,7 +11,7 @@ public class Parqueadero {
     private final Collection<Moto> motos;
     private final Collection<Carro> carros;
     private final Puesto[][] puestos;
-    private final ArrayList<Vehiculo> historialVehiculos = new ArrayList<>();
+    private final ArrayList<Registro> historialRegistros = new ArrayList<>();
 
     public Parqueadero(int columnas, int filas){
 
@@ -35,22 +36,33 @@ public class Parqueadero {
         return !puestos[posicionI][posicionJ].estaOcupado();
     }
 
-    public void ocuparPuestos(int posicionI, int posicionJ, Vehiculo vehiculo){
+    public void ocuparPuestos(int posicionI, int posicionJ, Vehiculo vehiculo, double tarifaPorHora){
         if (verificarDisponibilidad(posicionI, posicionJ)){
             puestos[posicionI][posicionJ].ocuparPuesto(vehiculo);
-            historialVehiculos.add(vehiculo);
+            Registro registro = new Registro(LocalTime.now(), null, tarifaPorHora);
+            historialRegistros.add(registro);
         }else {
             System.out.println("El puesto ya está ocupado.");
         }
     }
 
     public void liberarPuesto(int posicionI, int posicionJ){
-        puestos[posicionI][posicionJ].liberarPuesto();
+        if (!verificarDisponibilidad(posicionI, posicionJ)) {
+            puestos[posicionI][posicionJ].liberarPuesto();
+            for (Registro registro : historialRegistros) {
+                if (registro.getHoraSalida() == null) {
+                    registro.setHoraSalida(LocalTime.now());
+                    break;
+                }
+            }
+        } else {
+            System.out.println("El puesto ya está libre.");
+        }
     }
 
     public String obtenerPropietario(int posicionI, int posicionJ){
         if (puestos[posicionI][posicionJ].estaOcupado()){
-            return puestos[posicionI][posicionJ].getVehiculo().getPropietario();
+            return puestos[posicionI][posicionJ].getVehiculo().getPropietario().getNombre();
         } else {
             return "El puesto está vacio.";
         }

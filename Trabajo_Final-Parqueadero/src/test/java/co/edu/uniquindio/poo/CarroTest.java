@@ -56,7 +56,7 @@ public class CarroTest {
     private static class TesteadorDeNumeroNegativo implements Executable{
         @Override
         public void execute () throws Throwable {
-            new Carro("KDM-645", (int)-2013, "Alexander Buitrago")
+            new Carro("KDM-645", (int)-2013, "Alexander Buitrago");
         }   
     }
 }
