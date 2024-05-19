@@ -28,7 +28,7 @@ public class CarroTest {
         var carro = new Carro("KDM-645", (int) 2013, propietario, TipoVehiculo.CARRO);
         assertEquals("KDM-645", carro.getPlaca());
         assertEquals((int) 2013, carro.getModelo());
-        assertEquals("Alexander Buitrago", carro.getPropietario());
+        assertEquals("Alexander Buitrago", carro.getPropietario().getNombre());
         assertEquals(TipoVehiculo.CARRO, carro.getTipoVehiculo());
         LOG.info("Finalizando test datosCompletos");
     }
