@@ -1,10 +1,13 @@
 package co.edu.uniquindio.poo;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Parqueadero {
     private int cantidadPuestos;
@@ -39,7 +42,7 @@ public class Parqueadero {
     public void ocuparPuestos(int posicionI, int posicionJ, Vehiculo vehiculo, double tarifaPorHora){
         if (verificarDisponibilidad(posicionI, posicionJ)){
             puestos[posicionI][posicionJ].ocuparPuesto(vehiculo);
-            Registro registro = new Registro(LocalTime.now(), null, tarifaPorHora);
+            Registro registro = new Registro(LocalTime.now(), null, tarifaPorHora, vehiculo);
             historialRegistros.add(registro);
         }else {
             System.out.println("El puesto ya está ocupado.");
@@ -138,4 +141,48 @@ public class Parqueadero {
         }
         return existe;
     }
+
+    public ArrayList<Registro> getHistorialRegistros(){
+        return historialRegistros;
+    }
+
+    public Map<TipoVehiculo, Double> generarRepoteDiario(LocalDate fecha){
+        Map<TipoVehiculo, Double> reporteDiario = new HashMap<>();
+        reporteDiario.put(TipoVehiculo.MOTO_CLASICA, 0.0);
+        reporteDiario.put(TipoVehiculo.MOTO_HIBRIDA, 0.0);
+        reporteDiario.put(TipoVehiculo.CARRO, 0.0);
+
+        for (Registro registro : historialRegistros){
+            if (registro.getFecha().equals(fecha)){
+                double costo = registro.calcularCosto();
+                if (registro.getVehiculo()instanceof Moto){
+                    Moto moto = (Moto) registro.getVehiculo();
+                    reporteDiario.put(moto.getTipoVehiculo(), reporteDiario.get(moto.getTipoVehiculo()) + costo);
+                } else if (registro.getVehiculo() instanceof Carro){
+                    reporteDiario.put(TipoVehiculo.CARRO, reporteDiario.get(TipoVehiculo.CARRO) + costo);
+                }
+            }
+        }
+        return reporteDiario;
+    }
+
+    public Map<TipoVehiculo, Double> generarReporteMensual(int mes, int año){
+        Map<TipoVehiculo, Double> reporteMensual = new HashMap<>();
+        reporteMensual.put(TipoVehiculo.MOTO_CLASICA, 0.0);
+        reporteMensual.put(TipoVehiculo.MOTO_HIBRIDA, 0.0);
+        reporteMensual.put(TipoVehiculo.CARRO, 0.0);
+
+        for (Registro registro : historialRegistros){
+            if (registro.getFecha().getMonthValue() == mes && registro.getFecha().getYear() == año){
+                double costo = registro.calcularCosto();
+                if (registro.getVehiculo() instanceof Moto){
+                    Moto moto = (Moto) registro.getVehiculo();
+                    reporteMensual.put(moto.getTipoVehiculo(), reporteMensual.get(moto.getTipoVehiculo()) + costo);
+                } else if (registro.getVehiculo() instanceof Carro){
+                    reporteMensual.put(TipoVehiculo.CARRO, reporteMensual.get(TipoVehiculo.CARRO) + costo);
+                } 
+            }
+        }
+        return reporteMensual;
+    } 
 }
