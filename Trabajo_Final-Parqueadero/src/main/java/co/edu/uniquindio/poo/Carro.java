@@ -39,8 +39,6 @@ public class Carro extends Vehiculo {
                 return 15.0;
             case DEPORTIVO:
                 return 20.0;
-            case BUS:
-                return 30.0;
             default:
                 return 10.0;
         }
