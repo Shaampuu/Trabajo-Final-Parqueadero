@@ -3,12 +3,22 @@ package co.edu.uniquindio.poo;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
+/*
+ * La clase Registro representa el registro de la entrada y salida de vehiculos que se deben encontrar 
+ * dentro de un sistema.
+ * Este contiene: llama la clase Vehiculo para definir el registro de entrada y salida, 
+ * nos da una fecha para definir la fecha de entrada y fecha de salida. 
+ */
 public class Registro {
     
     private Vehiculo vehiculo;
     private LocalDateTime fechaEntrada;
     private LocalDateTime fechaSalida;
 
+    /*
+     * Se crea su respectivo constructor, el cual contiene la clase Vehiculo
+     * y la fecha de entrada y fecha de salida.  
+     */
     public Registro(Vehiculo vehiculo, LocalDateTime fechaEntrada, LocalDateTime fechaSalida) {
         this.vehiculo = vehiculo;
         this.fechaEntrada = fechaEntrada;
@@ -21,6 +31,9 @@ public class Registro {
         this.fechaSalida= null;
     }
     
+    /*
+     * Se generan sus respectivos getters y setters 
+     */
     public LocalDateTime getFechaEntrada() {
         return fechaEntrada;
     }
@@ -38,6 +51,11 @@ public class Registro {
         this.fechaSalida = fechaSalida;
     }
 
+    /*
+     * Se crea un metodo  para calcular el costo en base a la fecha de salida, la duración de estacionamiento,
+     * calcular el numero de horas estacionadas, cobrar por menos de un tiempo determinado, obtener la tarifa especifica,
+     * calcular el costo total. 
+     */
     public double calcularCosto() {
         assert fechaSalida != null : "El vehículo aún está estacionado, la fecha de salida es null.";
     
