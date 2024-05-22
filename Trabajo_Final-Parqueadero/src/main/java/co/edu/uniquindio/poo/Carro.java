@@ -55,7 +55,9 @@ public class Carro extends Vehiculo {
      */
     @Override
     public double getTarifaPorHora() {
+    //Esta declaración nos permite tomar decisiones basadas en el valor de una expresión o variable
         switch (tipoCarro) {
+    //Cada case representa un valor específico que se compara con la expresión.
             case CAMIONETA:
                 return 15.0;
             case DEPORTIVO:

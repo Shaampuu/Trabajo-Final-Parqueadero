@@ -9,6 +9,7 @@ public abstract class Vehiculo {
     private String placa; 
     private int modelo;
     private Propietario propietario;
+    private Registro registro; // Nuevo atributo para almacenar el registro
 
     /*
      * Constructor para inicializar una instancia de Vehiculo con la información especificada.
@@ -21,6 +22,7 @@ public abstract class Vehiculo {
         this.placa = placa;
         this.modelo = modelo;
         this.propietario = propietario;
+        this.registro = null;
     }
 
     /*
@@ -44,6 +46,14 @@ public abstract class Vehiculo {
 
     public Propietario getPropietario() {
         return propietario;
+    }
+
+    public Registro getRegistro() {
+        return registro;
+    }
+
+    public void setRegistro(Registro registro) {
+        this.registro = registro;
     }
 
     /*

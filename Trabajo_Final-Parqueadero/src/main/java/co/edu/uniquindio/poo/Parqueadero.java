@@ -119,8 +119,7 @@ public class Parqueadero {
             }
         }
     }
-    
-    
+
     /*
      * Obtiene el nombre del propietario segun el puesto ocupado.
      */
@@ -298,5 +297,12 @@ public class Parqueadero {
         } else {
             System.err.println("Tipo de vehículo desconocido: " + vehiculo.getClass().getSimpleName());
         }
-    }             
+    }
+
+    /*
+     * Retorna la matriz de puestos en el parqueadero.
+     */
+    public Puesto[][] getPuestos() {
+        return puestos;
+    }              
 }
