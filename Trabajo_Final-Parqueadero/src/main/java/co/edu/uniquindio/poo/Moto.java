@@ -6,7 +6,8 @@ package co.edu.uniquindio.poo;
  */
 public class Moto extends Vehiculo {
     private int velocidadMaxima;
-    
+    private double tarifaPorHora;
+
     /*
      * Se crea su respectivo constructor el cual contiene una cadena de texto para la placa,
      * un número para definir el modelo de la moto, llamamos la clase Propietario para devolverla como un objeto
@@ -16,6 +17,7 @@ public class Moto extends Vehiculo {
         super(placa, modelo, propietario);
         assert velocidadMaxima > 0 : "La velocidad máxima debe ser mayor a 0 (cero)";
         this.velocidadMaxima = velocidadMaxima;
+        this.tarifaPorHora = calcularTarifaPorHora();
     }
 
     /*
@@ -27,13 +29,21 @@ public class Moto extends Vehiculo {
 
     public void setVelocidadMaxima(int velocidadMaxima) {
         this.velocidadMaxima = velocidadMaxima;
+        this.tarifaPorHora = calcularTarifaPorHora();
+    }
+
+    public double getTarifaPorHora() {
+        return tarifaPorHora;
+    }
+
+    public void setTarifaPorHora(double tarifaPorHora) {
+        this.tarifaPorHora = tarifaPorHora;
     }
 
     /*
-     * Retorna la tarifa por hora de la motocicleta basada en su velocidad máxima.
+     * Calcula la tarifa por hora de la motocicleta basada en su velocidad máxima.
      */
-    @Override
-    public double getTarifaPorHora() {
+    private double calcularTarifaPorHora() {
         if (velocidadMaxima >= 0 && velocidadMaxima <= 100) {
             return 5.0;
         } else if (velocidadMaxima > 100 && velocidadMaxima <= 150) {

@@ -5,6 +5,7 @@ package co.edu.uniquindio.poo;
  */
 public class Carro extends Vehiculo {
     private TipoCarro tipoCarro;
+    private double tarifaPorHora;
 
     /*
      * Se crea su respectivo constructor, este contiene una enumeracion de el tipo de carro, da una cadena de texto para la placa,
@@ -16,6 +17,7 @@ public class Carro extends Vehiculo {
         validarPlaca(placa);
         validarModelo(modelo);
         validarPropietario(propietario);
+        this.tarifaPorHora = calcularTarifaPorHora();
     }
 
     /*
@@ -27,6 +29,15 @@ public class Carro extends Vehiculo {
 
     public void setTipoCarro(TipoCarro tipoCarro) {
         this.tipoCarro = tipoCarro;
+        this.tarifaPorHora = calcularTarifaPorHora();
+    }
+
+    public double getTarifaPorHora() {
+        return tarifaPorHora;
+    }
+
+    public void setTarifaPorHora(double tarifaPorHora) {
+        this.tarifaPorHora = tarifaPorHora;
     }
 
     /*
@@ -51,13 +62,10 @@ public class Carro extends Vehiculo {
     }
 
     /*
-     * Retorna la tarifa por hora del carro basada en su tipo.
+     * Calcula la tarifa por hora del carro basada en su tipo.
      */
-    @Override
-    public double getTarifaPorHora() {
-    //Esta declaración nos permite tomar decisiones basadas en el valor de una expresión o variable
+    private double calcularTarifaPorHora() {
         switch (tipoCarro) {
-    //Cada case representa un valor específico que se compara con la expresión.
             case CAMIONETA:
                 return 15.0;
             case DEPORTIVO:
@@ -67,4 +75,3 @@ public class Carro extends Vehiculo {
         }
     }
 }
-

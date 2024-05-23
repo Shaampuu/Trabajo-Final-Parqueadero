@@ -39,6 +39,10 @@ public class App {
 
             switch (opcion) {
                 case 1:
+                    if (parqueadero.getCantidadPuestos() <= parqueadero.getCarros().size() + parqueadero.getMotos().size()) {
+                        System.out.println("No hay espacio disponible en el parqueadero.");
+                        break;
+                    }
                     System.out.println("Ingrese la placa del carro:");
                     String placaCarro = scanner.nextLine();
                     System.out.println("Ingrese el modelo del carro:");
@@ -70,6 +74,10 @@ public class App {
                     break;
 
                 case 2:
+                    if (parqueadero.getCantidadPuestos() <= parqueadero.getCarros().size() + parqueadero.getMotos().size()) {
+                        System.out.println("No hay espacio disponible en el parqueadero.");
+                        break;
+                    }
                     System.out.println("Ingrese la placa de la moto:");
                     String placaMoto = scanner.nextLine();
                     System.out.println("Ingrese el modelo de la moto:");
@@ -80,9 +88,23 @@ public class App {
                     System.out.println("Ingrese la velocidad máxima de la moto:");
                     int velocidadMaxima = scanner.nextInt();
                     scanner.nextLine(); // Limpiar buffer
+                    System.out.println("Ingrese el tipo de moto (1: MOTO_CLASICA, 2: MOTO_HIBRIDA):");
+                    int tipoMotoInt = scanner.nextInt();
+                    scanner.nextLine(); // Limpiar buffer
+
+                    TipoMoto tipoMoto;
+                    switch (tipoMotoInt) {
+                        case 2:
+                            tipoMoto = TipoMoto.MOTO_HIBRIDA;
+                            break;
+                        default:
+                            tipoMoto = TipoMoto.MOTO_CLASICA;
+                            break;
+                    }
 
                     Propietario propietarioMoto = new Propietario(nombrePropietarioMoto);
                     Moto moto = new Moto(placaMoto, modeloMoto, propietarioMoto, velocidadMaxima);
+                    moto.setTarifaPorHora(moto.getTarifaPorHora());
                     parqueadero.agregarMoto(moto);
                     System.out.println("Moto agregada con éxito.");
                     break;
@@ -112,10 +134,12 @@ public class App {
                     if (vehiculoLiberar != null) {
                         System.out.println("Ingrese las horas estacionadas:");
                         int horasEstacionadas = scanner.nextInt();
+                        System.out.println("Ingrese la tarifa por hora:");
+                        double tarifaPorHora = scanner.nextDouble();
                         scanner.nextLine(); // Limpiar buffer
 
-                        liberarVehiculo(parqueadero, vehiculoLiberar, horasEstacionadas);
-                        System.out.println("Vehículo liberado con éxito.");
+                        double costo = liberarVehiculo(parqueadero, vehiculoLiberar, horasEstacionadas, tarifaPorHora);
+                        System.out.println("Vehículo liberado con éxito. El costo total es: " + costo);
                     } else {
                         System.out.println("Vehículo no encontrado.");
                     }
@@ -159,7 +183,9 @@ public class App {
                     double costoTotal = 0.0;
                     for (Registro registro : parqueadero.getHistorialRegistros()) {
                         if (registro.getFechaSalida() != null) {
-                            costoTotal += registro.calcularCosto();
+                            double costo = registro.calcularCosto();
+                            System.out.println("Costo del vehículo con placa " + registro.getVehiculo().getPlaca() + ": " + costo);
+                            costoTotal += costo;
                         }
                     }
                     System.out.println("Costo Total del Estacionamiento: " + costoTotal);
@@ -180,13 +206,15 @@ public class App {
     }
 
     /**
-     * Libera el puesto ocupado por un vehículo en el parqueadero.
+     * Libera el puesto ocupado por un vehículo en el parqueadero y calcula el costo total.
      *
      * @param parqueadero El parqueadero.
      * @param vehiculo El vehículo a liberar.
      * @param horasEstacionadas Las horas que el vehículo estuvo estacionado.
+     * @param tarifaPorHora La tarifa por hora del vehículo.
+     * @return El costo total por el tiempo estacionado.
      */
-    private static void liberarVehiculo(Parqueadero parqueadero, Vehiculo vehiculo, int horasEstacionadas) {
+    private static double liberarVehiculo(Parqueadero parqueadero, Vehiculo vehiculo, int horasEstacionadas, double tarifaPorHora) {
         for (int i = 0; i < parqueadero.getPuestos().length; i++) {
             for (int j = 0; j < parqueadero.getPuestos()[i].length; j++) {
                 Puesto puesto = parqueadero.getPuestos()[i][j];
@@ -195,10 +223,13 @@ public class App {
                     LocalDateTime fechaSalida = puesto.getVehiculo().getRegistro().getFechaEntrada().plusHours(horasEstacionadas);
                     Registro registro = puesto.getVehiculo().getRegistro();
                     registro.setFechaSalida(fechaSalida);
+                    // Ajustar la tarifa por hora del vehículo
+                    vehiculo.setTarifaPorHora(tarifaPorHora);
                     parqueadero.liberarPuesto(i, j);
-                    return;
+                    return registro.calcularCosto();
                 }
             }
         }
+        return 0.0;
     }
 }

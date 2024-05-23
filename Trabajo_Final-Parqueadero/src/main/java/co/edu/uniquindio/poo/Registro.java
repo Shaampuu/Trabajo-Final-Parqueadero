@@ -76,6 +76,4 @@ public class Registro {
         // Calcular el costo total
         return horasEstacionadas * tarifaPorHora;
     }
-    
-    
 }

@@ -9,7 +9,7 @@ public abstract class Vehiculo {
     private String placa; 
     private int modelo;
     private Propietario propietario;
-    private Registro registro; // Nuevo atributo para almacenar el registro
+    private Registro registro; // Agregamos el registro asociado
 
     /*
      * Constructor para inicializar una instancia de Vehiculo con la información especificada.
@@ -22,7 +22,6 @@ public abstract class Vehiculo {
         this.placa = placa;
         this.modelo = modelo;
         this.propietario = propietario;
-        this.registro = null;
     }
 
     /*
@@ -61,4 +60,10 @@ public abstract class Vehiculo {
      * Este método debe ser implementado por las subclases de Vehiculo.
      */
     public abstract double getTarifaPorHora();
+    
+    /*
+     * Método abstracto para establecer la tarifa por hora del vehículo.
+     * Este método debe ser implementado por las subclases de Vehiculo.
+     */
+    public abstract void setTarifaPorHora(double tarifaPorHora);
 }

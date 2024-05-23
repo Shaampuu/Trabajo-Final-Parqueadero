@@ -71,6 +71,7 @@ public class Parqueadero {
             LocalDateTime fechaEntrada = LocalDateTime.now(); // Obtener la fecha y hora actual
             puestos[posicionI][posicionJ].ocuparPuesto(vehiculo);
             Registro registro = new Registro(vehiculo, fechaEntrada, null); // Pasar fecha de entrada
+            vehiculo.setRegistro(registro); // Asociar el registro con el vehículo
             historialRegistros.add(registro);
         } else {
             System.out.println("El puesto ya está ocupado.");
@@ -103,14 +104,7 @@ public class Parqueadero {
             LocalDateTime fechaSalida = LocalDateTime.now();
     
             // Buscar el registro correspondiente en el historial de registros
-            Registro registro = null;
-            for (Registro reg : historialRegistros) {
-                if (reg.getVehiculo().equals(vehiculo) && reg.getFechaSalida() == null) {
-                    registro = reg;
-                    break;
-                }
-            }
-    
+            Registro registro = vehiculo.getRegistro();
             if (registro != null) {
                 registro.setFechaSalida(fechaSalida);
                 puesto.liberarPuesto();
@@ -118,6 +112,10 @@ public class Parqueadero {
                 System.err.println("No se encontró el registro correspondiente para el vehículo.");
             }
         }
+    }
+    
+    public Puesto[][] getPuestos() {
+        return puestos;
     }
 
     /*
@@ -297,12 +295,5 @@ public class Parqueadero {
         } else {
             System.err.println("Tipo de vehículo desconocido: " + vehiculo.getClass().getSimpleName());
         }
-    }
-
-    /*
-     * Retorna la matriz de puestos en el parqueadero.
-     */
-    public Puesto[][] getPuestos() {
-        return puestos;
-    }              
+    }             
 }
