@@ -10,6 +10,7 @@ public abstract class Vehiculo {
     private int modelo;
     private Propietario propietario;
     private Registro registro; // Agregamos el registro asociado
+    private int horasEstacionadas; // Nueva variable
 
     /*
      * Constructor para inicializar una instancia de Vehiculo con la información especificada.
@@ -53,6 +54,14 @@ public abstract class Vehiculo {
 
     public void setRegistro(Registro registro) {
         this.registro = registro;
+    }
+
+    public int getHorasEstacionadas() {
+        return horasEstacionadas;
+    }
+
+    public void setHorasEstacionadas(int horasEstacionadas) {
+        this.horasEstacionadas = horasEstacionadas;
     }
 
     /*
