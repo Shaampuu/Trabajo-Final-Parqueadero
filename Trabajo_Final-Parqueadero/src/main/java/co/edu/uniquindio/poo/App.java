@@ -117,6 +117,7 @@ public class App {
                     if (vehiculoParquear == null) {
                         vehiculoParquear = parqueadero.getMoto(placaParquear);
                     }
+                    System.out.println("Vehiculo parqueado con exito.");
                     break;
 
                 case 4:
