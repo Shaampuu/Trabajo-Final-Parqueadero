@@ -144,12 +144,22 @@ public class App {
                         vehiculoLiberar = parqueadero.getMoto(placaLiberar);
                     }
                     if (vehiculoLiberar != null) {
-                        System.out.println("Ingrese la posición I del puesto:");
-                        int posicionILiberar = scanner.nextInt();
-                        System.out.println("Ingrese la posición J del puesto:");
-                        int posicionJLiberar = scanner.nextInt();
+                        System.out.println("Ingrese el tiempo que estuvo el vehiculo parqueado en horas:");
+                        int horasEstacionadas = scanner.nextInt();
+                        System.out.println("Ingrese la tarifa por hora:");
+                        double tarifaPorHora = scanner.nextDouble();
                         scanner.nextLine(); // Limpiar buffer
-                        liberarVehiculo(parqueadero, vehiculoLiberar, posicionILiberar, posicionJLiberar);
+
+                        vehiculoLiberar.setHorasEstacionadas(horasEstacionadas);
+                        vehiculoLiberar.setTarifaPorHora(tarifaPorHora);
+                        parqueadero.buscarYParquearVehiculo(vehiculoLiberar);
+                        System.out.println("Vehículo parqueado con éxito.");
+                    } else {
+                        System.out.println("Vehículo no encontrado.");
+                    }
+                    if (vehiculoLiberar != null) {
+                        double costo = liberarVehiculo(parqueadero, vehiculoLiberar);
+                        System.out.println("Vehículo liberado con éxito. El costo total es: " + costo);
                     } else {
                         System.out.println("Vehículo no encontrado.");
                     }
@@ -242,19 +252,21 @@ public class App {
      *
      * @param parqueadero El parqueadero.
      * @param vehiculo El vehículo a liberar.
-     * @param posicionI La posición I del puesto.
-     * @param posicionJ La posición J del puesto.
      * @return El costo total por el tiempo estacionado.
      */
-    private static double liberarVehiculo(Parqueadero parqueadero, Vehiculo vehiculo, int posicionI, int posicionJ) {
-        Puesto puesto = parqueadero.getPuestos()[posicionI][posicionJ];
-        if (puesto.estaOcupado() && puesto.getVehiculo().equals(vehiculo)) {
-            // Simular la fecha de salida basada en las horas estacionadas
-            LocalDateTime fechaSalida = puesto.getVehiculo().getRegistro().getFechaEntrada().plusHours(vehiculo.getHorasEstacionadas());
-            Registro registro = puesto.getVehiculo().getRegistro();
-            registro.setFechaSalida(fechaSalida);
-            parqueadero.liberarPuesto(posicionI, posicionJ);
-            return CalculadoraTarifa.calcularCosto(registro.getFechaEntrada(), fechaSalida, vehiculo.getTarifaPorHora());
+    private static double liberarVehiculo(Parqueadero parqueadero, Vehiculo vehiculo) {
+        for (int i = 0; i < parqueadero.getPuestos().length; i++) {
+            for (int j = 0; j < parqueadero.getPuestos()[i].length; j++) {
+                Puesto puesto = parqueadero.getPuestos()[i][j];
+                if (puesto.estaOcupado() && puesto.getVehiculo().equals(vehiculo)) {
+                    // Simular la fecha de salida basada en las horas estacionadas
+                    LocalDateTime fechaSalida = puesto.getVehiculo().getRegistro().getFechaEntrada().plusHours(vehiculo.getHorasEstacionadas());
+                    Registro registro = puesto.getVehiculo().getRegistro();
+                    registro.setFechaSalida(fechaSalida);
+                    parqueadero.liberarPuesto(i, j);
+                    return CalculadoraTarifa.calcularCosto(registro.getFechaEntrada(), fechaSalida, vehiculo.getTarifaPorHora());
+                }
+            }
         }
         return 0.0;
     }
