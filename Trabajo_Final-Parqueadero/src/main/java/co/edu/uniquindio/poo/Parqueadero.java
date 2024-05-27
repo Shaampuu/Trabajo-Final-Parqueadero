@@ -79,6 +79,26 @@ public class Parqueadero {
     }
 
     /*
+     * Método para parquear un vehículo en una posición específica.
+     */
+    public void parquearVehiculo(Vehiculo vehiculo, int posicionI, int posicionJ) {
+        if (posicionI < 0 || posicionI >= puestos.length || posicionJ < 0 || posicionJ >= puestos[0].length) {
+            throw new IllegalArgumentException("Posición fuera de los límites del parqueadero.");
+        }
+
+        Puesto puesto = puestos[posicionI][posicionJ];
+        if (puesto.estaOcupado()) {
+            throw new IllegalArgumentException("El puesto ya está ocupado.");
+        }
+
+        LocalDateTime fechaEntrada = LocalDateTime.now();
+        puesto.ocuparPuesto(vehiculo);
+        Registro registro = new Registro(vehiculo, fechaEntrada, null);
+        vehiculo.setRegistro(registro);
+        historialRegistros.add(registro);
+    }
+
+    /*
      * Busca el primer puesto disponible y parquea el vehiculo. 
      */
     public boolean buscarYParquearVehiculo(Vehiculo vehiculo) {
