@@ -117,20 +117,6 @@ public class App {
                     if (vehiculoParquear == null) {
                         vehiculoParquear = parqueadero.getMoto(placaParquear);
                     }
-                    if (vehiculoParquear != null) {
-                        System.out.println("Ingrese el tiempo que va a estar estacionado en horas:");
-                        int horasEstacionadas = scanner.nextInt();
-                        System.out.println("Ingrese la tarifa por hora:");
-                        double tarifaPorHora = scanner.nextDouble();
-                        scanner.nextLine(); // Limpiar buffer
-
-                        vehiculoParquear.setHorasEstacionadas(horasEstacionadas);
-                        vehiculoParquear.setTarifaPorHora(tarifaPorHora);
-                        parqueadero.buscarYParquearVehiculo(vehiculoParquear);
-                        System.out.println("Vehículo parqueado con éxito.");
-                    } else {
-                        System.out.println("Vehículo no encontrado.");
-                    }
                     break;
 
                 case 4:
@@ -139,6 +125,20 @@ public class App {
                     Vehiculo vehiculoLiberar = parqueadero.getCarro(placaLiberar);
                     if (vehiculoLiberar == null) {
                         vehiculoLiberar = parqueadero.getMoto(placaLiberar);
+                    }
+                    if (vehiculoLiberar != null) {
+                        System.out.println("Ingrese el tiempo que estuvo el vehiculo parqueado en horas:");
+                        int horasEstacionadas = scanner.nextInt();
+                        System.out.println("Ingrese la tarifa por hora:");
+                        double tarifaPorHora = scanner.nextDouble();
+                        scanner.nextLine(); // Limpiar buffer
+
+                        vehiculoLiberar.setHorasEstacionadas(horasEstacionadas);
+                        vehiculoLiberar.setTarifaPorHora(tarifaPorHora);
+                        parqueadero.buscarYParquearVehiculo(vehiculoLiberar);
+                        System.out.println("Vehículo parqueado con éxito.");
+                    } else {
+                        System.out.println("Vehículo no encontrado.");
                     }
                     if (vehiculoLiberar != null) {
                         double costo = liberarVehiculo(parqueadero, vehiculoLiberar);
@@ -239,3 +239,5 @@ public class App {
         return 0.0;
     }
 }
+
+
