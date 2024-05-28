@@ -2,6 +2,7 @@ package co.edu.uniquindio.poo;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Objects;  // Import statement added
 
 /**
  * La clase CalculadoraTarifa maneja el cálculo del costo basado en las horas y la tarifa por hora.
@@ -17,7 +18,9 @@ public class CalculadoraTarifa {
      * @return               El costo total.
      */
     public static double calcularCosto(LocalDateTime fechaEntrada, LocalDateTime fechaSalida, double tarifaPorHora) {
-        assert fechaSalida != null : "El vehículo aún está estacionado, la fecha de salida es null.";
+        // Check for null values
+        Objects.requireNonNull(fechaEntrada, "La fecha de entrada no puede ser null.");
+        Objects.requireNonNull(fechaSalida, "El vehículo aún está estacionado, la fecha de salida es null.");
 
         // Calcular la duración del estacionamiento
         Duration duracion = Duration.between(fechaEntrada, fechaSalida);

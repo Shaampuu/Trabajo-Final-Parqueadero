@@ -2,20 +2,12 @@ package co.edu.uniquindio.poo;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 /*
  * La clase Parqueadero representa un estacionamiento que maneja puestos de aparcamiento
  * para motos y carros. Permite registrar la entrada y salida de vehículos y mantener 
  * un historial de estos registros.
- * Este tiene: un numero total de puestos en el parqueadero, collecion de motos actualmente en el parqueadero,
- * colleción de carros actualmente en el parqueadero, matriz bidimensional que representa los puestos de aparcamiento en el parqueadero, 
- * lista de registros de entrada y salida de vehículos en el parqueadero.
  */
 public class Parqueadero {
     private final int cantidadPuestos;
@@ -70,7 +62,7 @@ public class Parqueadero {
         if (verificarDisponibilidad(posicionI, posicionJ)) {
             LocalDateTime fechaEntrada = LocalDateTime.now(); // Obtener la fecha y hora actual
             puestos[posicionI][posicionJ].ocuparPuesto(vehiculo);
-            Registro registro = new Registro(vehiculo, fechaEntrada, null); // Pasar fecha de entrada
+            Registro registro = new Registro(vehiculo, fechaEntrada); // Pasar fecha de entrada
             vehiculo.setRegistro(registro); // Asociar el registro con el vehículo
             historialRegistros.add(registro);
         } else {
@@ -82,7 +74,7 @@ public class Parqueadero {
      * Método para parquear un vehículo en una posición específica.
      */
     public void parquearVehiculo(Vehiculo vehiculo, int posicionI, int posicionJ) {
-        if (posicionI < 0 || posicionI >= puestos.length || posicionJ < 0 || posicionJ >= puestos[0].length) {
+        if (posicionI < 0 || posicionJ < 0 || posicionI >= puestos.length || posicionJ >= puestos[0].length) {
             throw new IllegalArgumentException("Posición fuera de los límites del parqueadero.");
         }
 
@@ -93,7 +85,7 @@ public class Parqueadero {
 
         LocalDateTime fechaEntrada = LocalDateTime.now();
         puesto.ocuparPuesto(vehiculo);
-        Registro registro = new Registro(vehiculo, fechaEntrada, null);
+        Registro registro = new Registro(vehiculo, fechaEntrada);
         vehiculo.setRegistro(registro);
         historialRegistros.add(registro);
     }
@@ -115,7 +107,7 @@ public class Parqueadero {
     }
 
     /*
-     * Libera un pueste especifico que fue ocupado, registrando la salida del vehiculo.
+     * Libera un puesto especifico que fue ocupado, registrando la salida del vehiculo.
      */
     public void liberarPuesto(int posicionI, int posicionJ) {
         Puesto puesto = puestos[posicionI][posicionJ];
@@ -139,13 +131,13 @@ public class Parqueadero {
     }
 
     /*
-     * Obtiene el nombre del propietario segun el puesto ocupado.
+     * Obtiene el nombre del propietario según el puesto ocupado.
      */
     public String obtenerPropietario(int posicionI, int posicionJ) {
         if (puestos[posicionI][posicionJ].estaOcupado()) {
             return puestos[posicionI][posicionJ].getVehiculo().getPropietario().getNombre();
         } else {
-            return "El puesto está vacio.";
+            return "El puesto está vacío.";
         }
     }
 
@@ -162,13 +154,12 @@ public class Parqueadero {
      * Busca y retorna una moto por su placa.
      */
     public Moto getMoto(String placa) {
-        Moto motoInteres = null;
         for (Moto moto : motos) {
             if (moto.getPlaca().equals(placa)) {
-                motoInteres = moto;
+                return moto;
             }
         }
-        return motoInteres;
+        return null;
     }
 
     /*
@@ -245,7 +236,11 @@ public class Parqueadero {
     
         for (Registro registro : historialRegistros) {
             if (esFechaIgual(registro, fecha)) {
-                actualizarReporte(registro, reporteDiario);
+                if (registro.getFechaSalida() != null) {
+                    actualizarReporte(registro, reporteDiario);
+                } else {
+                    System.err.println("Registro incompleto para vehículo: " + registro.getVehiculo().getPlaca());
+                }
             }
         }
         return reporteDiario;
@@ -259,7 +254,11 @@ public class Parqueadero {
     
         for (Registro registro : historialRegistros) {
             if (esMesYAñoIguales(registro, mes, año)) {
-                actualizarReporte(registro, reporteMensual);
+                if (registro.getFechaSalida() != null) {
+                    actualizarReporte(registro, reporteMensual);
+                } else {
+                    System.err.println("Registro incompleto para vehículo: " + registro.getVehiculo().getPlaca());
+                }
             }
         }
         return reporteMensual;
